@@ -51,7 +51,6 @@ export default function Album() {
   const [modalStyle] = React.useState(getModalStyle);
   const { auth } = state;
 
-  console.log(state);
   const handleOpenModel = () => {
     setOpen(true);
   };
