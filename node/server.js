@@ -6,6 +6,8 @@ const passport = require('passport');
 const app = express();
 const config = require('./config');
 
+const AuthRoute = require('./routes/auth');
+
 // MongoDB Config
 const mongodbURL = config.DB_URL;
 mongoose.connect(mongodbURL, { useNewUrlParser: true });
@@ -15,8 +17,12 @@ mongoose.set('useCreateIndex', true);
 // App Config
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(passport.initialize());
+require('./servers/passport');
 
 // route
+app.use('/auth', AuthRoute);
+
 app.get('*', (req, res) => {
   res.status(404).json({ message: 'not found' });
 });
