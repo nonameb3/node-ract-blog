@@ -9,9 +9,19 @@ module.exports = {
 };
 ```
 
-## Run Envoy
+## Run Server
 
 ```
  $cd node && npm i && npm start // server
  $cd blog-appt && npm i && npm start // client
+```
+## Register
+
+use localhost:9000/api/auth/register to register user
+
+```
+{
+    "username": "admin",
+    "password" : "adminadmin"
+}
 ```
