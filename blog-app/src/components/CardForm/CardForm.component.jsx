@@ -22,16 +22,14 @@ function CardForm({ item, onClick, dispatch }) {
 
   function onSubmit() {
     const request = { content, name, category, status };
-    axios
-      .put('http://localhost:9000/api/card/edit/5f4a3c2a6f3288732fd2f67d', request)
-      .then((res) => {
-        console.log(res.data);
-        dispatch({
-          type: 'updatecard',
-          payload: res.data.card,
-        });
-        onClick();
+    axios.put(`http://localhost:9000/api/card/edit/${item._id}`, request).then((res) => {
+      console.log(res.data);
+      dispatch({
+        type: 'updatecard',
+        payload: res.data.card,
       });
+      onClick();
+    });
   }
 
   return (

@@ -98,7 +98,7 @@ export default function Album() {
         <Grid container spacing={4}>
           {state.cards.map((card) => (
             <Grid item key={card._id} xs={12} sm={6} md={4}>
-              <BlogCard onClick={() => handleOpenModel(card)} item={card} />
+              <BlogCard onClick={() => handleOpenModel(card)} item={card} dispatch={dispatch} />
             </Grid>
           ))}
         </Grid>

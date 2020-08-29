@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const middleware = require('../middlewares');
+const { isCardOwner, requireJWT } = require('../middlewares');
 const Card = require('../models/card');
 
 router.get('/', (req, res) => {
@@ -10,7 +10,7 @@ router.get('/', (req, res) => {
   });
 });
 
-router.post('/add', middleware.requireJWT, (req, res) => {
+router.post('/add', requireJWT, (req, res) => {
   const { name, status, category, content } = req.body;
   const newCard = {
     name,
@@ -22,14 +22,14 @@ router.post('/add', middleware.requireJWT, (req, res) => {
 
   Card.create(newCard, (err, card) => {
     if (err) {
-      res.statusCode(500).json({ message: err.message });
+      res.status(500).json({ message: err.message });
     } else {
       res.json({ message: 'Success add card', data: card });
     }
   });
 });
 
-router.put('/edit/:id', middleware.requireJWT, (req, res) => {
+router.put('/edit/:id', requireJWT, isCardOwner, (req, res) => {
   const { name, status, category, content } = req.body;
   const updateCard = {
     name,
@@ -44,12 +44,22 @@ router.put('/edit/:id', middleware.requireJWT, (req, res) => {
     { new: true },
     (err, card) => {
       if (err) {
-        res.statusCode(500).json({ message: err.message });
+        res.status(500).json({ message: err.message });
       } else {
         res.json({ message: 'Success update card', card: card });
       }
     }
   );
+});
+
+router.delete('/delete/:id', requireJWT, isCardOwner, (req, res) => {
+  Card.findByIdAndDelete(req.params.id, (err) => {
+    if (err) {
+      res.status(500).json({ message: err.message });
+    } else {
+      res.json({ message: 'Success delete card' });
+    }
+  });
 });
 
 module.exports = router;

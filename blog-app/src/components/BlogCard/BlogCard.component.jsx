@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -39,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function BlogCardComponent(props) {
+  console.log(props);
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -57,6 +59,16 @@ function BlogCardComponent(props) {
   const handleEdit = () => {
     props.onClick();
     setAnchorEl(null);
+  };
+
+  const handleDelete = () => {
+    axios.delete(`http://localhost:9000/api/card/delete/${props.item._id}`).then(() => {
+      setAnchorEl(null);
+      props.dispatch({
+        type: 'deletecard',
+        payload: props.item._id,
+      });
+    });
   };
 
   return (
@@ -98,7 +110,7 @@ function BlogCardComponent(props) {
             onClose={handleClose}
           >
             <MenuItem onClick={handleEdit}>Edit</MenuItem>
-            <MenuItem onClick={handleClose}>Delete</MenuItem>
+            <MenuItem onClick={handleDelete}>Delete</MenuItem>
           </Menu>
 
           <StatusIcon className={classes.miniIcon} style={{ color: green[500] }} />
