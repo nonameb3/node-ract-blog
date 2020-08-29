@@ -7,6 +7,7 @@ const app = express();
 const config = require('./config');
 
 const AuthRoute = require('./routes/auth');
+const CardRoute = require('./routes/card');
 
 // MongoDB Config
 const mongodbURL = config.DB_URL;
@@ -21,7 +22,8 @@ app.use(passport.initialize());
 require('./servers/passport');
 
 // route
-app.use('/auth', AuthRoute);
+app.use('/api/auth', AuthRoute);
+app.use('/api/card', CardRoute);
 
 app.get('*', (req, res) => {
   res.status(404).json({ message: 'not found' });

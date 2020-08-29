@@ -39,7 +39,7 @@ router.get(
   '/secret',
   passport.authenticate('jwt', { session: false }),
   function (req, res) {
-    res.json({ message: 'Success!' });
+    res.json({ message: 'Success!', user: req.user });
   }
 );
 

@@ -6,13 +6,7 @@ const CardSchema = new mongoose.Schema({
   content: String,
   category: String,
   createDate: { type: Date, default: Date.now },
-  author: {
-    id: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
-    },
-    username: String,
-  },
+  author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
 });
 
 const commentModel = mongoose.model('Card', CardSchema);
