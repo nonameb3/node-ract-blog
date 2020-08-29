@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function BlogCardComponent() {
+function BlogCardComponent(props) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -48,6 +48,7 @@ function BlogCardComponent() {
   };
 
   const handleClose = () => {
+    props.onClick();
     setAnchorEl(null);
   };
 

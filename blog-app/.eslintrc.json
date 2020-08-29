@@ -25,6 +25,7 @@
     "no-noninteractive-element-interactions": "off",
     "react/react-in-jsx-scope": "off",
     "react/jsx-props-no-spreading": "off",
+    "react/prop-types": "warn",
     "react/jsx-filename-extension": [
       "warn",
       {
