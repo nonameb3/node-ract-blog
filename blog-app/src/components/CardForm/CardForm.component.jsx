@@ -15,21 +15,30 @@ const useStyles = makeStyles((theme) => ({
 
 function CardForm({ item, onClick, dispatch }) {
   const classes = useStyles();
-  const [content, setContent] = React.useState(item.content);
-  const [name, setName] = React.useState(item.name);
-  const [category, setCategory] = React.useState(item.category);
-  const [status, setStatus] = React.useState(item.status);
+  const [content, setContent] = React.useState(item.content || '');
+  const [name, setName] = React.useState(item.name || '');
+  const [category, setCategory] = React.useState(item.category || '');
+  const [status, setStatus] = React.useState(item.status || '');
 
   function onSubmit() {
     const request = { content, name, category, status };
-    axios.put(`http://localhost:9000/api/card/edit/${item._id}`, request).then((res) => {
-      console.log(res.data);
-      dispatch({
-        type: 'updatecard',
-        payload: res.data.card,
+    if (item._id) {
+      axios.put(`http://localhost:9000/api/card/edit/${item._id}`, request).then((res) => {
+        dispatch({
+          type: 'updatecard',
+          payload: res.data.card,
+        });
+        onClick();
       });
-      onClick();
-    });
+    } else {
+      axios.post(`http://localhost:9000/api/card/add`, request).then((res) => {
+        dispatch({
+          type: 'addcard',
+          payload: res.data.card,
+        });
+        onClick();
+      });
+    }
   }
 
   return (

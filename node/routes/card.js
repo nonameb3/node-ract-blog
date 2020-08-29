@@ -24,7 +24,7 @@ router.post('/add', requireJWT, (req, res) => {
     if (err) {
       res.status(500).json({ message: err.message });
     } else {
-      res.json({ message: 'Success add card', data: card });
+      res.json({ message: 'Success add card', card: card });
     }
   });
 });

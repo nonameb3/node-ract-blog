@@ -21,6 +21,8 @@ export default (state, action) => {
       return { ...state, auth: action.payload };
     case 'setcards':
       return { ...state, cards: action.payload };
+    case 'addcard':
+      return { ...state, cards: [...state.cards, action.payload] };
     case 'updatecard':
       return { ...state, cards: updateCard(action.payload, state.cards) };
     case 'deletecard':

@@ -70,7 +70,6 @@ export default function Album() {
     }
   }, [state.auth]);
 
-  console.log(state);
   const handleOpenModel = (card) => {
     setItem(card);
   };
@@ -87,7 +86,7 @@ export default function Album() {
       <Container className={classes.cardGrid} maxWidth="md">
         <div className={classes.topCard}>
           {auth ? (
-            <Button variant="contained" color="primary">
+            <Button variant="contained" color="primary" onClick={() => setItem({})}>
               Add
             </Button>
           ) : (

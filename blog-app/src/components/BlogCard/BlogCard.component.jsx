@@ -40,7 +40,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function BlogCardComponent(props) {
-  console.log(props);
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
