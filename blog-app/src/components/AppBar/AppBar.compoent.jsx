@@ -9,6 +9,9 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 
 const useStyles = makeStyles(() => ({
+  root: {
+    backgroundColor: '#22ABD8',
+  },
   title: {
     display: 'flex',
     width: '100%',
@@ -29,7 +32,7 @@ function AppBarCompoent() {
     setAnchorEl(null);
   };
   return (
-    <AppBar position="static">
+    <AppBar position="static" className={classes.root}>
       <Toolbar>
         <div className={classes.title}>
           <Typography variant="h6" color="inherit" noWrap>
