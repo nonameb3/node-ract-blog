@@ -29,4 +29,27 @@ router.post('/add', middleware.requireJWT, (req, res) => {
   });
 });
 
+router.put('/edit/:id', middleware.requireJWT, (req, res) => {
+  const { name, status, category, content } = req.body;
+  const updateCard = {
+    name,
+    status,
+    category,
+    content,
+  };
+
+  Card.findByIdAndUpdate(
+    req.params.id,
+    updateCard,
+    { new: true },
+    (err, card) => {
+      if (err) {
+        res.statusCode(500).json({ message: err.message });
+      } else {
+        res.json({ message: 'Success update card', card: card });
+      }
+    }
+  );
+});
+
 module.exports = router;

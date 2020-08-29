@@ -43,8 +43,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-// const datas = [...Array(9)].map((u, i) => i);
-
 export default function Album() {
   const classes = useStyles();
   const [state, dispatch] = React.useReducer(reducer, initialState);
@@ -64,18 +62,22 @@ export default function Album() {
       .catch((error) => console.error(error));
   }, []);
 
+  React.useEffect(() => {
+    if (state.auth) {
+      axios.defaults.headers.common.Authorization = `Bearer ${state.auth?.token}`;
+    } else {
+      axios.defaults.headers.common.Authorization = null;
+    }
+  }, [state.auth]);
+
   console.log(state);
   const handleOpenModel = (card) => {
     setItem(card);
   };
 
-  const handleClose = () => {
-    setItem(null);
-  };
-
   const modalBody = (
     <div style={modalStyle} className={classes.paper}>
-      <CardForm onClick={handleClose} item={item} />
+      <CardForm onClick={() => setItem(null)} item={item} dispatch={dispatch} />
     </div>
   );
 
@@ -104,7 +106,7 @@ export default function Album() {
         {/* add edit modal */}
         <Modal
           open={!!item}
-          onClose={handleClose}
+          onClose={() => setItem(null)}
           aria-labelledby="edit-modal-title"
           aria-describedby="edit-modal-description"
         >

@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
@@ -12,14 +13,25 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function CardForm(props) {
+function CardForm({ item, onClick, dispatch }) {
   const classes = useStyles();
-  const {
-    item: { content, name, category, status },
-  } = props;
+  const [content, setContent] = React.useState(item.content);
+  const [name, setName] = React.useState(item.name);
+  const [category, setCategory] = React.useState(item.category);
+  const [status, setStatus] = React.useState(item.status);
 
   function onSubmit() {
-    props.onClick();
+    const request = { content, name, category, status };
+    axios
+      .put('http://localhost:9000/api/card/edit/5f4a3c2a6f3288732fd2f67d', request)
+      .then((res) => {
+        console.log(res.data);
+        dispatch({
+          type: 'updatecard',
+          payload: res.data.card,
+        });
+        onClick();
+      });
   }
 
   return (
@@ -29,16 +41,44 @@ function CardForm(props) {
       </Typography>
       <Grid container spacing={3}>
         <Grid item xs={12} md={6}>
-          <TextField required id="cardName" label="Card Name" fullWidth value={name} />
+          <TextField
+            required
+            id="cardName"
+            label="Card Name"
+            fullWidth
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
         </Grid>
         <Grid item xs={12} md={6}>
-          <TextField required id="cardCategory" label="Category" fullWidth value={category} />
+          <TextField
+            required
+            id="cardCategory"
+            label="Category"
+            fullWidth
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+          />
         </Grid>
         <Grid item xs={12} md={6}>
-          <TextField required id="status" label="Status" fullWidth value={status} />
+          <TextField
+            required
+            id="status"
+            label="Status"
+            fullWidth
+            value={status}
+            onChange={(e) => setStatus(e.target.value)}
+          />
         </Grid>
         <Grid item xs={12}>
-          <TextField required id="content" label="Content" fullWidth value={content} />
+          <TextField
+            required
+            id="content"
+            label="Content"
+            fullWidth
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+          />
         </Grid>
         <Grid item xs={12} />
       </Grid>
