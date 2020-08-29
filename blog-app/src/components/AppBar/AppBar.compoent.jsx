@@ -19,7 +19,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-function AppBarCompoent() {
+function AppBarCompoent({ auth, dispatch }) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -31,6 +31,12 @@ function AppBarCompoent() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleLogout = () => {
+    dispatch({ type: 'setauth', payload: null });
+    setAnchorEl(null);
+  };
+
   return (
     <AppBar position="static" className={classes.root}>
       <Toolbar>
@@ -39,7 +45,6 @@ function AppBarCompoent() {
             Mini-Blog
           </Typography>
         </div>
-
         <div>
           <IconButton
             aria-label="account of current user"
@@ -47,6 +52,8 @@ function AppBarCompoent() {
             aria-haspopup="true"
             color="inherit"
             onClick={handleMenu}
+            disabled={!auth}
+            enni
           >
             <AccountCircle />
           </IconButton>
@@ -65,7 +72,7 @@ function AppBarCompoent() {
             open={open}
             onClose={handleClose}
           >
-            <MenuItem onClick={handleClose}>Logout</MenuItem>
+            <MenuItem onClick={handleLogout}>Logout</MenuItem>
           </Menu>
         </div>
       </Toolbar>
