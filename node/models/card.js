@@ -6,7 +6,10 @@ const CardSchema = new mongoose.Schema({
   content: String,
   category: String,
   createDate: { type: Date, default: Date.now },
-  author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  author: {
+    id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    name: String,
+  },
 });
 
 const commentModel = mongoose.model('Card', CardSchema);

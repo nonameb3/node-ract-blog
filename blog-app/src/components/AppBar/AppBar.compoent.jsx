@@ -53,7 +53,7 @@ function AppBarCompoent({ auth, dispatch }) {
             color="inherit"
             onClick={handleMenu}
             disabled={!auth}
-            enni
+            enni="true"
           >
             <AccountCircle />
           </IconButton>

@@ -42,12 +42,19 @@ function BlogCardComponent(props) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+  const {
+    item: { content, name, author },
+  } = props;
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
   const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleEdit = () => {
     props.onClick();
     setAnchorEl(null);
   };
@@ -63,7 +70,7 @@ function BlogCardComponent(props) {
             component="h2"
             style={{ color: '#7964ad' }}
           >
-            Header
+            {name}
           </Typography>
 
           <IconButton
@@ -90,18 +97,14 @@ function BlogCardComponent(props) {
             open={open}
             onClose={handleClose}
           >
-            <MenuItem onClick={handleClose}>Edit</MenuItem>
+            <MenuItem onClick={handleEdit}>Edit</MenuItem>
             <MenuItem onClick={handleClose}>Delete</MenuItem>
           </Menu>
 
           <StatusIcon className={classes.miniIcon} style={{ color: green[500] }} />
         </div>
 
-        <Typography>
-          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
-          been the industry standard dummy text ever since the 1500s, when an unknown printer took a
-          galley of type and scrambled it to make a type
-        </Typography>
+        <Typography>{content}</Typography>
         <IconButton>
           <FavoriteIcon className={classes.miniIcon} />
         </IconButton>
@@ -113,7 +116,7 @@ function BlogCardComponent(props) {
           src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRWIsj-_1ISxb80gHMao9Ob417mWyQQ0ugZ3w&usqp=CAU"
         />
         <Typography variant="subtitle2" style={{ color: 'Gray' }}>
-          Waraphon Roonnapai
+          {author.name}
         </Typography>
       </div>
       <CardActions />

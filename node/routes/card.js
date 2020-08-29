@@ -17,7 +17,7 @@ router.post('/add', middleware.requireJWT, (req, res) => {
     status,
     category,
     content,
-    author: req.user.id,
+    author: { id: req.user.id, name: req.user.username },
   };
 
   Card.create(newCard, (err, card) => {

@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Modal from '@material-ui/core/Modal';
 import Button from '@material-ui/core/Button';
+import axios from 'axios';
 
 import reducer, { initialState } from './reducer';
 import AppBar from './components/AppBar';
@@ -42,26 +43,39 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const datas = [...Array(9)].map((u, i) => i);
+// const datas = [...Array(9)].map((u, i) => i);
 
 export default function Album() {
   const classes = useStyles();
   const [state, dispatch] = React.useReducer(reducer, initialState);
-  const [open, setOpen] = React.useState(false);
+  const [item, setItem] = React.useState(null);
   const [modalStyle] = React.useState(getModalStyle);
   const { auth } = state;
 
-  const handleOpenModel = () => {
-    setOpen(true);
+  React.useEffect(() => {
+    axios
+      .get('http://localhost:9000/api/card/')
+      .then((res) =>
+        dispatch({
+          type: 'setcards',
+          payload: res.data.data,
+        })
+      )
+      .catch((error) => console.error(error));
+  }, []);
+
+  console.log(state);
+  const handleOpenModel = (card) => {
+    setItem(card);
   };
 
   const handleClose = () => {
-    setOpen(false);
+    setItem(null);
   };
 
-  const body = (
+  const modalBody = (
     <div style={modalStyle} className={classes.paper}>
-      <CardForm onClick={handleClose} />
+      <CardForm onClick={handleClose} item={item} />
     </div>
   );
 
@@ -80,21 +94,21 @@ export default function Album() {
         </div>
 
         <Grid container spacing={4}>
-          {datas.map((item) => (
-            <Grid item key={item} xs={12} sm={6} md={4}>
-              <BlogCard onClick={handleOpenModel} />
+          {state.cards.map((card) => (
+            <Grid item key={card._id} xs={12} sm={6} md={4}>
+              <BlogCard onClick={() => handleOpenModel(card)} item={card} />
             </Grid>
           ))}
         </Grid>
 
         {/* add edit modal */}
         <Modal
-          open={open}
+          open={!!item}
           onClose={handleClose}
           aria-labelledby="edit-modal-title"
           aria-describedby="edit-modal-description"
         >
-          {body}
+          {modalBody}
         </Modal>
       </Container>
     </div>

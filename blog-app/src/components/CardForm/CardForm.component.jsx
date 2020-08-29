@@ -14,6 +14,9 @@ const useStyles = makeStyles((theme) => ({
 
 function CardForm(props) {
   const classes = useStyles();
+  const {
+    item: { content, name, category, status },
+  } = props;
 
   function onSubmit() {
     props.onClick();
@@ -26,16 +29,16 @@ function CardForm(props) {
       </Typography>
       <Grid container spacing={3}>
         <Grid item xs={12} md={6}>
-          <TextField required id="cardName" label="Card Name" fullWidth />
+          <TextField required id="cardName" label="Card Name" fullWidth value={name} />
         </Grid>
         <Grid item xs={12} md={6}>
-          <TextField required id="cardCategory" label="Category" fullWidth />
+          <TextField required id="cardCategory" label="Category" fullWidth value={category} />
         </Grid>
         <Grid item xs={12} md={6}>
-          <TextField required id="status" label="Status" fullWidth />
+          <TextField required id="status" label="Status" fullWidth value={status} />
         </Grid>
         <Grid item xs={12}>
-          <TextField required id="content" label="Content" fullWidth />
+          <TextField required id="content" label="Content" fullWidth value={content} />
         </Grid>
         <Grid item xs={12} />
       </Grid>
